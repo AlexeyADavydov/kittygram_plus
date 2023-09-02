@@ -6,6 +6,17 @@ import datetime as dt
 
 import webcolors
 
+from djoser.serializers import UserSerializer
+from django.contrib.auth.models import User
+
+
+class CustomUserSerializer(UserSerializer):
+    class Meta:
+        model = User
+        fields = ('email', 'id', 'username', 'first_name', 'last_name') 
+
+
+
 class Hex2NameColor(serializers.Field):
     def to_representation(self, value):
         return value
@@ -69,4 +80,11 @@ class OwnerSerializer(serializers.ModelSerializer):
         fields = ('first_name', 'last_name', 'cats')
 
 
+
+class CatListSerializer(serializers.ModelSerializer):
+    color = serializers.ChoiceField(choices=CHOICES)
+
+    class Meta:
+        model = Cat
+        fields = ('id', 'name', 'color')
 
